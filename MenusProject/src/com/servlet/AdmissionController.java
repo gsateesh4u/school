@@ -35,8 +35,8 @@ public class AdmissionController extends HttpServlet {
             
             JSONObject jo = new JSONObject(json);
         	JSONObject joStud = jo.getJSONObject("student");
-        	JSONObject joPerson = jo.getJSONObject("person");
         	JSONObject joMother = jo.getJSONObject("mother");
+        	JSONObject joPerson = jo.getJSONObject("person");
         	JSONObject joFather = jo.getJSONObject("father");
        
         	Gson gson = new Gson();
@@ -44,9 +44,13 @@ public class AdmissionController extends HttpServlet {
         	stu = gson.fromJson(joStud.toString(),Student.class);
         	Person stuPer = gson.fromJson(joPerson.toString(),Person.class);
         	Person mother = gson.fromJson(joMother.toString(), Person.class);
+        	mother.setStateId(stuPer.getStateId());
+        	mother.setCityId(stuPer.getCityId());
         	mother.setLastName(stuPer.getLastName());
         	mother.setGender("Female");
         	Person father = gson.fromJson(joFather.toString(), Person.class);
+        	father.setStateId(stuPer.getStateId());
+        	father.setCityId(stuPer.getCityId());
         	father.setLastName(stuPer.getLastName());
         	father.setGender("Male");
         	

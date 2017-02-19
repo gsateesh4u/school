@@ -25,7 +25,7 @@ public class StudentDao {
 
 	public void addStudent(Student student) {
 		String insertQuery = "INSERT INTO student( fatherid, personid, shift, board, enrollmentdate, leavingdate, standardid, "
-				+ "bloodgroup, religion, category, rollno, batch, familyincome, motherid,purchasebook,outstandingfees) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pStmt = dbConnection.prepareStatement(insertQuery);
 			/*pStmt.setInt(1, student.getGrNo());
@@ -40,13 +40,13 @@ public class StudentDao {
 			pStmt.setString(8, student.getBloodGroup());
 			pStmt.setString(9, student.getReligion());
 			/*pStmt.setString(10, student.getNationality());*/
-			pStmt.setString(11, student.getCategory());
-			pStmt.setInt(12, student.getRollNo());
-			pStmt.setString(13, student.getBatch());
-			pStmt.setInt(14, student.getFamilyIncome());
-			pStmt.setInt(15, student.getMotherId());
-			pStmt.setInt(16, student.getPurchaseBook());
-			pStmt.setInt(17, student.getOutstandingFees());
+			pStmt.setString(10, student.getCategory());
+			pStmt.setInt(11, student.getRollNo());
+			pStmt.setString(12, student.getBatch());
+			pStmt.setInt(13, student.getFamilyIncome());
+			pStmt.setInt(14, student.getMotherId());
+			pStmt.setInt(15, student.getPurchaseBook());
+			pStmt.setInt(16, student.getOutstandingFees());
 			pStmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -66,29 +66,29 @@ public class StudentDao {
 
 	public void updateStudent(Student student) {
 		String updateQuery = "UPDATE student SET fatherid = ?, personid = ?, shift = ?, board = ?, enrollmentdate = ?, "
-				+ "leavingdate = ?, standardid = ?, bloodgroup = ?, religion = ?, nationality = ?, category = ?, rollno = ?, batch = ?, familyincome = ?, motherid = ?, purchasebook = ?, outstandingfees = ? WHERE studentid = ?";
+				+ "leavingdate = ?, standardid = ?, bloodgroup = ?, religion = ?, category = ?, rollno = ? , batch = ?, familyincome = ?, motherid = ?, purchasebook = ?, outstandingfees = ? WHERE studentid = ?";
 		try {
 			pStmt = dbConnection.prepareStatement(updateQuery);
 			/*pStmt.setInt(1, student.getGrNo());
 			pStmt.setInt(2, student.getDiseNo());*/
-			pStmt.setInt(3, student.getFatherId());
-			pStmt.setInt(4, student.getPersonId());
-			pStmt.setString(5, student.getShift());
-			pStmt.setString(6, student.getBoard());
-			pStmt.setString(7, student.getEnrollmentDate());
-			pStmt.setString(8, student.getLeavingDate());
-			pStmt.setInt(9, student.getStandardId());
-			pStmt.setString(10, student.getBloodGroup());
-			pStmt.setString(11, student.getReligion());
+			pStmt.setInt(1, student.getFatherId());
+			pStmt.setInt(2, student.getPersonId());
+			pStmt.setString(3, student.getShift());
+			pStmt.setString(4, student.getBoard());
+			pStmt.setString(5, student.getEnrollmentDate());
+			pStmt.setString(6, student.getLeavingDate());
+			pStmt.setInt(7, student.getStandardId());
+			pStmt.setString(8, student.getBloodGroup());
+			pStmt.setString(9, student.getReligion());
 			/*pStmt.setString(12, student.getNationality());*/
-			pStmt.setString(13, student.getCategory());
-			pStmt.setInt(14, student.getRollNo());
-			pStmt.setString(15, student.getBatch());
-			pStmt.setInt(16, student.getFamilyIncome());
-			pStmt.setInt(17, student.getMotherId());
-			pStmt.setInt(18, student.getPurchaseBook());
-			pStmt.setInt(19, student.getOutstandingFees());
-			pStmt.setInt(20, student.getStudentId());
+			pStmt.setString(10, student.getCategory());
+			pStmt.setInt(11, student.getRollNo());
+			pStmt.setString(12, student.getBatch());
+			pStmt.setInt(13, student.getFamilyIncome());
+			pStmt.setInt(14, student.getMotherId());
+			pStmt.setInt(15, student.getPurchaseBook());
+			pStmt.setInt(16, student.getOutstandingFees());
+			pStmt.setInt(17, student.getStudentId());
 			pStmt.executeUpdate();
 
 		} catch (SQLException e) {

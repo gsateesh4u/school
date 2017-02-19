@@ -113,7 +113,6 @@ app.controller('admission',function($scope, $http, $filter) {
 						console.log("Admit :");
 						console.log($scope.admit);
 						/* var grno = $scope.admit.student.grNo; */
-						var rollno = $scope.admit.student.rollNo;
 						var mobileno = $scope.admit.person.mobileNo;
 						var alterno = $scope.admit.person.alternateNo;
 						var fmobileno = $scope.admit.father.mobileNo;
@@ -131,9 +130,8 @@ app.controller('admission',function($scope, $http, $filter) {
 								 $scope.admit.person.address2 == undefined || $scope.admit.person.pincode == undefined || $scope.admit.mother.firstName == undefined || $scope.admit.father.mobileNo == undefined ||
 								$scope.admit.student.familyIncome == undefined || $scope.admit.person.photo == undefined || $scope.admit.father.occupation == undefined ||  $scope.admit.mother.occupation == undefined ||  
 								$scope.admit.mother.mobileNo == undefined ||  $scope.admit.father.homeNo == undefined ||  $scope.admit.father.email == undefined ||  $scope.admit.mother.email == undefined){ */
-							if(  $scope.admit.student.rollNo == undefined || $scope.admit.person.firstName == undefined ||
-								$scope.admit.person.lastName == undefined || $scope.admit.student.nationality == undefined ||
-								$scope.admit.person.address1 == undefined || $scope.admit.father.firstName == undefined ||  
+							if(  $scope.admit.person.firstName == undefined ||
+								$scope.admit.person.lastName == undefined || $scope.admit.person.address1 == undefined || $scope.admit.father.firstName == undefined ||  
 								 $scope.admit.person.pincode == undefined || $scope.admit.mother.firstName == undefined ||
 								 $scope.admit.person.homeNo == undefined ||
 								$scope.admit.student.familyIncome == undefined || $scope.admit.person.photo == undefined ){
@@ -147,9 +145,7 @@ app.controller('admission',function($scope, $http, $filter) {
 								 $scope.admit.person.address2 == "" || $scope.admit.person.pincode == "" || $scope.admit.mother.firstName == "" || $scope.admit.father.mobileNo == "" ||
 								$scope.admit.student.familyIncome == "" || $scope.admit.person.photo == "" || $scope.admit.father.occupation == "" ||  $scope.admit.mother.occupation == "" ||  
 								$scope.admit.mother.mobileNo == "" ||  $scope.admit.father.homeNo == "" ||  $scope.admit.father.email == "" ||  $scope.admit.mother.email == ""){ */
-							else if( $scope.admit.student.rollNo == "" || $scope.admit.person.firstName == "" ||  
-									$scope.admit.person.lastName == "" || $scope.admit.student.nationality == "" ||
-								$scope.admit.person.address1 == "" || $scope.admit.father.firstName == "" ||  $scope.admit.person.homeNo == "" || 
+							else if( $scope.admit.person.firstName == "" || $scope.admit.person.lastName == "" || $scope.admit.person.address1 == "" || $scope.admit.father.firstName == "" ||  $scope.admit.person.homeNo == "" || 
 								 $scope.admit.person.address2 == "" || $scope.admit.person.pincode == "" || $scope.admit.mother.firstName == "" ||
 								$scope.admit.student.familyIncome == "" || $scope.admit.person.photo == "" ){
 							
@@ -161,11 +157,11 @@ app.controller('admission',function($scope, $http, $filter) {
 							$scope.alertMsg("GrNo :- 4 digit");
 							return false;
 						} */
-						else if(rollno.match("^[0-9]{3}$") == null){
+						/* else if(rollno.match("^[0-9]{3}$") == null){
 							$scope.alertMsg("Number Format Not Match");
 							$scope.alertMsg("RollNo :- 3 digit");
 							return false;
-						}
+						} */
 						 /* else if((mobileno && mobileno.match("^[7-9][0-9]{10}$") == null) || (fmobileno && fmobileno.match("^[7-9][0-9]{9}$") == null) || (alterno && alterno.match("^[7-9][0-9]{9}$") == null) || (mmobileno && mmobileno.match("^[7-9][0-9]{9}$") == null)){
 							$scope.alertMsg("Mobile Number Format Not Valid");
 							return false 
@@ -371,11 +367,13 @@ function getbase64() {
 												onchange="getbase64();">
                                           </div>
                                         
+                                        
+                                        
 									</div>
 
-									<div class="span12">
+									<!-- <div class="span12">
 
-										<!-- <div class='span2'>
+										<div class='span2'>
 											<label for="textfield" class="form-control">GR No. <span style="color:red;">*</span>
 											</label>
 										</div>
@@ -383,7 +381,7 @@ function getbase64() {
 										<div class='span4'>
 											<input class="span6 m-wrap h30" ng-model="admit.student.grNo"
 												type="text" placeholder='Enter GRNO.'>
-										</div> -->
+										</div>
 
 										<div class='span2'>
 											<label for="textfield" class="form-control">Roll No.
@@ -396,22 +394,9 @@ function getbase64() {
 												ng-model="admit.student.rollNo" type="text">
 										</div>
 										
-										<div class='span2'>
-											<label for="textfield" class="form-control">Board <span style="color:red;">*</span></label>
-										</div>
+										
 
-										<div class='span4'>
-											<select ng-model="admit.student.board" class='span6 m-wrap h30'
-												id="board"
-												ng-options="board for board in ['SSC','CBSE']"
-												ng-init="admit.student.board='SSC'">
-
-											</select>
-
-
-										</div>
-
-									</div>
+									</div> -->
 
 
 									<!-- <div class="span12">
@@ -499,6 +484,27 @@ function getbase64() {
 											</select>
 										</div>
 										
+										<div class='span2'>
+											<label for="textfield" class="form-control">Board <span style="color:red;">*</span></label>
+										</div>
+
+										<div class='span4'>
+											<select ng-model="admit.student.board" class='span6 m-wrap h30'
+												id="board"
+												ng-options="board for board in ['SSC','CBSE']"
+												ng-init="admit.student.board='SSC'">
+
+											</select>
+
+
+										</div>
+										
+										
+									
+									</div>
+									
+									<div class="span12">
+									
 										<div class="span2">
 											<label for="textfield" class="form-control">Aadhar Number </label>
 										</div>
@@ -508,7 +514,6 @@ function getbase64() {
 												ng-model="admit.person.aadharNumber" 
 												type="text">
 										</div>
-									
 									</div>
 
 								</fieldset>
@@ -763,7 +768,7 @@ function getbase64() {
 												Name <span style="color:red;">*</span></label>
 										</div>
 
-										<div class="span4">
+										<div class="span2">
 											<input name="sFname" ng-model="admit.father.firstName"
 												size=id= "sFname" type="text" class="span6 m-wrap h30">
 										</div>
@@ -774,11 +779,22 @@ function getbase64() {
 
 										</div>
 
-										<div class="span4">
+										<div class="span2">
 
 											<input name="sMname" ng-model="admit.mother.firstName"
 												class="span6 m-wrap h30" size=id= "sMname" type="text">
 
+										</div>
+										
+										<div class="span2">
+											<label for="textfield" class="form-control">Family
+												Income <span style="color:red;">*</span></label>
+										</div>
+
+										<div class="span2">
+
+											<input ng-model="admit.student.familyIncome"
+												class='span6 m-wrap h30' id="sAddresso" type="text">
 										</div>
 
 									</div>
@@ -844,20 +860,11 @@ function getbase64() {
 
 
 
-									<div class="span12">
+									<!-- <div class="span12">
+										
+
+
 										<div class="span2">
-											<label for="textfield" class="form-control">Family
-												Income <span style="color:red;">*</span></label>
-										</div>
-
-										<div class="span4">
-
-											<input ng-model="admit.student.familyIncome"
-												class='span6 m-wrap h30' id="sAddresso" type="text">
-										</div>
-
-
-										<!-- <div class="span2">
 											<label for="textfield" class="form-control">Home
 												Phone</label>
 
@@ -866,9 +873,9 @@ function getbase64() {
 										<div class="span4">
 											<input ng-model="admit.father.homeNo" class="span6 m-wrap h30"
 												id="sAddresso" type="text">
-										</div> -->
+										</div>
 
-									</div>
+									</div> -->
 
 
 

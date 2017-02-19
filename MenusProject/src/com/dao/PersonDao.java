@@ -56,7 +56,7 @@ public class PersonDao {
 
 	public int addPerson(Person person) {
 		System.out.println("in add person");
-		String insertQuery = "INSERT INTO person(firstname,middlename,lastname,aadharnumber,dob,email,mobileno,gender,homeno,address1,address2,pincode,cityid,photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String insertQuery = "INSERT INTO person(firstname,middlename,lastname,aadharnumber,dob,email,mobileno,gender,homeno,address1,address2,pincode,cityid,stateid,photo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		InputStream in;
 		if (person.getPhoto() == null) {
 			in = null;
@@ -74,12 +74,13 @@ public class PersonDao {
 			pStmt.setString(6, person.getEmail());
 			pStmt.setString(7, person.getMobileNo());
 			/*pStmt.setString(8, person.getAlternateNo());*/
-			pStmt.setString(9, person.getGender());
-			pStmt.setString(10, person.getHomeNo());
-			pStmt.setString(11, person.getAddress1());
-			pStmt.setString(12, person.getAddress2());
-			pStmt.setString(13, person.getPincode());
-			pStmt.setInt(14, person.getCityId());
+			pStmt.setString(8, person.getGender());
+			pStmt.setString(9, person.getHomeNo());
+			pStmt.setString(10, person.getAddress1());
+			pStmt.setString(11, person.getAddress2());
+			pStmt.setString(12, person.getPincode());
+			pStmt.setInt(13, person.getCityId());
+			pStmt.setInt(14, person.getStateId());
 			pStmt.setBinaryStream(15, in);
 			/*pStmt.setString(16, person.getOccupation());*/
 			pStmt.executeUpdate();
@@ -152,7 +153,7 @@ public class PersonDao {
 	
 	public void updatePerson(Person person) {
 		String updateQuery = "UPDATE person SET firstname = ?,middlename = ?, lastname = ?, aadharnumber = ? "
-				+ "dob = ?, email = ?, mobileno = ?, alternateno = ?, gender = ?, homeno = ?, address1 = ?, address2 = ?, pincode = ?, cityid = ?  WHERE personid = ?";
+				+ "dob = ?, email = ?, mobileno = ?,  gender = ?, homeno = ?, address1 = ?, address2 = ?, pincode = ?, cityid = ? , stateid = ?  WHERE personid = ?";
 		try {
 			pStmt = dbConnection.prepareStatement(updateQuery);
 			pStmt.setString(1, person.getFirstName());
@@ -163,12 +164,13 @@ public class PersonDao {
 			pStmt.setString(6, person.getEmail());
 			pStmt.setString(7, person.getMobileNo());
 			/*pStmt.setString(8, person.getAlternateNo());*/
-			pStmt.setString(9, person.getGender());
-			pStmt.setString(10, person.getHomeNo());
-			pStmt.setString(11, person.getAddress1());
-			pStmt.setString(12, person.getAddress2());
-			pStmt.setString(13, person.getPincode());
-			pStmt.setInt(14, person.getCityId());
+			pStmt.setString(8, person.getGender());
+			pStmt.setString(9, person.getHomeNo());
+			pStmt.setString(10, person.getAddress1());
+			pStmt.setString(11, person.getAddress2());
+			pStmt.setString(12, person.getPincode());
+			pStmt.setInt(13, person.getCityId());
+			pStmt.setInt(14, person.getStateId());
 			pStmt.setInt(15, person.getPersonId());
 			pStmt.executeUpdate();
 
@@ -202,6 +204,7 @@ public class PersonDao {
 				person.setAddress2(rs.getString("address2"));
 				person.setPincode(rs.getString("pincode"));
 				person.setCityId(rs.getInt("cityid"));
+				person.setStateId(rs.getInt("stateid"));
 				persons.add(person);
 			}
 		} catch (SQLException e) {
@@ -248,6 +251,7 @@ public class PersonDao {
 				person.setAddress2(rs.getString("address2"));
 				person.setPincode(rs.getString("pincode"));
 				person.setCityId(rs.getInt("cityid"));
+				person.setStateId(rs.getInt("stateid"));
 				/*person.setOccupation(rs.getString("occupation"));*/
 				Blob blob =  rs.getBlob("photo");
 				InputStream in = blob.getBinaryStream();
@@ -400,6 +404,7 @@ public class PersonDao {
 					person.setAddress2(rs.getString("address2"));
 					person.setPincode(rs.getString("pincode"));
 					person.setCityId(rs.getInt("cityid"));
+					person.setStateId(rs.getInt("stateid"));
 					/*person.setOccupation(rs.getString("occupation"));*/
 					persons.add(person);
 				}
@@ -438,6 +443,7 @@ public class PersonDao {
 					
 					person.setPincode(rs.getString("pincode"));
 					person.setCityId(rs.getInt("cityid"));
+					person.setStateId(rs.getInt("stateid"));
 					/*person.setOccupation(rs.getString("occupation"));*/
 					persons.add(person);
 				}

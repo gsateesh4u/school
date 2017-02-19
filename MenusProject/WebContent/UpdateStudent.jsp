@@ -327,9 +327,9 @@ function getbase64() {
 
 
 
-									<div class="span12">
+									<!-- <div class="span12">
 
-										<!-- <div class='span2'>
+										<div class='span2'>
 											<label for="textfield" class="form-control">GR No. :
 											</label>
 										</div>
@@ -337,7 +337,7 @@ function getbase64() {
 										<div class='span4'>
 											<input class="span6 m-wrap h30" ng-model="admit.student.grNo"
 												required type="number" placeholder='Enter GRNO.'>
-										</div> -->
+										</div>
 
 										<div class='span2'>
 											<label for="textfield" class="form-control">Roll No.
@@ -350,22 +350,9 @@ function getbase64() {
 												ng-model="admit.student.rollNo" type="number">
 										</div>
 
-                                         <div class='span2'>
-											<label for="textfield" class="form-control">Board</label>
-										</div>
+                                        
 
-										<div class='span4'>
-											<select ng-model="admit.student.board" class='span6 m-wrap h30'
-												id="board"
-												ng-options="board for board in ['SSC','CBSE']"
-												ng-init="admit.student.board='SSC'">
-
-											</select>
-
-
-										</div>
-
-									</div>
+									</div> -->
 
 
 									<!-- <div class="span12">
@@ -448,7 +435,25 @@ function getbase64() {
 											</select>
 										</div>
 										
-										<div class="span2">
+										 <div class='span2'>
+											<label for="textfield" class="form-control">Board</label>
+										</div>
+
+										<div class='span4'>
+											<select ng-model="admit.student.board" class='span6 m-wrap h30'
+												id="board"
+												ng-options="board for board in ['SSC','CBSE']"
+												ng-init="admit.student.board='SSC'">
+
+											</select>
+
+
+										</div>
+										
+										</div>
+								<div class="span12">
+								
+									<div class="span2">
 											<label for="textfield" class="form-control">Aadhar Number </label>
 										</div>
 
@@ -458,15 +463,16 @@ function getbase64() {
 												type="text">
 										</div>
 									
-									</div>
-
+								</div>
 								</fieldset>
 
 								<legend> Personal Details </legend>
 								
 									<fieldset>
-									<div class="span12">
+									<div class="span12" style=" margin: -15px !important;"></div>
 									
+									<div class="span12">
+																		
 										<div class="span2">
 											<label for="textfield" class="form-control">Gender</label>
 										</div>
@@ -726,14 +732,14 @@ function getbase64() {
 								<legend>Family Details</legend>
 								
 								<fieldset>
-								
+								<div class="span12" style=" margin: -15px !important;"></div>
 									<div class="span12">
 										<div class="span2">
 											<label for="textfield" class="form-control">Father
 												Name</label>
 										</div>
 
-										<div class="span4">
+										<div class="span2">
 											<input name="sFname" ng-model="admit.father.firstName"
 												size=id= "sFname" type="text" class="span6 m-wrap h30">
 										</div>
@@ -744,11 +750,22 @@ function getbase64() {
 
 										</div>
 
-										<div class="span4">
+										<div class="span2">
 
 											<input name="sMname" ng-model="admit.mother.firstName"
 												class="span6 m-wrap h30" size=id= "sMname" type="text">
 
+										</div>
+										
+										<div class="span2">
+											<label for="textfield" class="form-control">Family
+												Income</label>
+										</div>
+
+										<div class="span2">
+
+											<input ng-model="admit.student.familyIncome"
+												class='span6 m-wrap h30' id="sAddresso" type="text">
 										</div>
 
 									</div>
@@ -812,20 +829,11 @@ function getbase64() {
 
 
 
-									<div class="span12">
+									<!-- <div class="span12">
+										
+
+
 										<div class="span2">
-											<label for="textfield" class="form-control">Family
-												Income</label>
-										</div>
-
-										<div class="span4">
-
-											<input ng-model="admit.student.familyIncome"
-												class='span6 m-wrap h30' id="sAddresso" type="text">
-										</div>
-
-
-										<!-- <div class="span2">
 											<label for="textfield" class="form-control">Home
 												Phone</label>
 
@@ -834,9 +842,9 @@ function getbase64() {
 										<div class="span4">
 											<input ng-model="admit.father.homeNo" class="span6 m-wrap h30"
 												id="sAddresso" type="text">
-										</div> -->
+										</div>
 
-									</div>
+									</div> -->
 
 
 
