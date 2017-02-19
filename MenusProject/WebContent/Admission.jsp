@@ -194,6 +194,7 @@ app.controller('admission',function($scope, $http, $filter) {
 						}
 						
 						$scope.admit.person.cityId = $scope.selectedCity.cityId;
+						$scope.admit.person.stateId = $scope.selectedState.stateId;
 						$scope.admit.student.standardId = $scope.selectedStandard.standardId;
 						$scope.admit.person.dob = $("#date01").val();
 						

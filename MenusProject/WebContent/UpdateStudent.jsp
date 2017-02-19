@@ -33,7 +33,6 @@ app
 					$scope.init = function() {
 						
 						
-						
 						$http(
 								{
 									method : 'POST',
@@ -50,7 +49,6 @@ app
 											$scope.standardList = response;
 											
 											
-											
 											$http(
 													{
 														method : 'POST',
@@ -60,10 +58,7 @@ app
 															"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
 														}
 													}).success(function(response) {
-
 												$scope.stateList = response;
-												
-											
 												
 												$http(
 														{
@@ -97,15 +92,36 @@ app
 																	//console.log($scope.admit.person.photo);
 																	//$scope.selectedCity = $scope.person.  ;
 																	//$scope.selectedStandard = $scope.student. ;
-
-																	angular.forEach($scope.stateList,function(state){
-																		if(state.stateId == $scope.admit.person.stateId){
-																				$scope.selectedState = state;
-																				angualr.forEach($scope.selectedState.cityList,function(city){
-																					if(city.cityId === $scope.admit.person.cityId){
-																						$scope.selectedCity = city;
+																	//$scope.selectedState = {};
+																	angular.forEach($scope.stateList,function(st){
+																		if(st.stateId == $scope.admit.person.stateId){
+																				//angular.copy(st, $scope.selectedState);
+																				$scope.selectedState = st;
+																				/* $scope.selectedState.stateId = st.stateId;
+																				$scope.selectedState.stateName = st.stateName;
+																				alert(angular.toJson($scope.selectedState)); */
+																				/* $scope.selectedState.cityList = [];
+																				for(var itr=0; itr<st.cityList.length; itr++){
+																					$scope.selectedState.cityList.push(st.cityList[itr]);
+																				} */
+																				for(var itr=0; itr<$scope.selectedState.cityList.length; itr++){
+																					if($scope.selectedState.cityList[itr].cityId === $scope.admit.person.cityId){
+																						$scope.selectedCity = $scope.selectedState.cityList[itr];
 																					}
-																				});
+																				} 
+																				//var cities = [].concat(state.cityList);
+																				//alert(angular.toJson($scope.selectedState.cityList));
+																				 /* angualr.forEach($scope.selectedState.cityList,function(tcity){
+																					if(tcity.cityId === $scope.admit.person.cityId){
+																						alert();
+																						$scope.selectedCity = {
+																								cityId : tcity.cityId,
+																								cityName : tcity.cityName,
+																								stateId : tcity.stateId
+																						};
+																						//$scope.selectedCity = tcity;
+																					}
+																				}); */
 																			}
 																	});
 																	
@@ -501,7 +517,7 @@ function getbase64() {
 												placeholder="Date" id="dob" type="text"
 												step=7 min="2014-09-08" class="input-xlarge datepicker"
 												ng-model="admit.person.dob">
-											<script>
+											<!-- <script>
 												$(document).ready(
 
 												function() {
@@ -514,7 +530,7 @@ function getbase64() {
 													 */
 
 												});
-											</script>
+											</script> -->
 
 
 										</div>
@@ -694,7 +710,7 @@ function getbase64() {
 									</div>
 									<div class="span4">
 										<select class="span6 m-wrap h30"
-											ng-options="state.stateName for state in stateList"
+											ng-options="state.stateName for state in stateList track by state.stateId"
 											ng-model="selectedState" data-rule-required="true">
 										</select>
 									</div>
@@ -705,7 +721,7 @@ function getbase64() {
 
 									<div class="span4">
 										<select class="span6 m-wrap h30"
-											ng-options="city.cityName for city in selectedState.cityList"
+											ng-options="city.cityName for city in selectedState.cityList track by city.cityId"
 											ng-model="selectedCity">
 										</select>
 									</div>
