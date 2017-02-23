@@ -119,10 +119,12 @@ public class StudentController extends HttpServlet {
 				try {
 					if (action.equals("create")) {
 						// Create new record
+						
 						studentDao.addStudent(student);
 						
 						// Fetch Data from Student Table
 						studentList = studentDao.getAllStudents();
+						
 						// Convert Java Object to Json
 						String jsonArray = gson.toJson(studentList);
 						// Return Json in the format required by jTable plugin

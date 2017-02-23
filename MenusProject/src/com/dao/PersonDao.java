@@ -99,10 +99,10 @@ public class PersonDao {
 		try {
 			Statement st = dbConnection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
-
+			
 			if (rs.next()) {
 				return rs.getInt(1);
-			}
+						}
 		} catch (SQLException e) {
 
 			e.printStackTrace();

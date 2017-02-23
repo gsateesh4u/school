@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.jdbc.DBUtility;
+import com.model.Person;
+import com.model.Standard;
 import com.model.Student;
 
 public class StudentDao {
@@ -21,9 +23,12 @@ public class StudentDao {
 
 	public StudentDao() {
 		dbConnection = DBUtility.getConnection();
+		
 	}
 
 	public void addStudent(Student student) {
+		
+		
 		String insertQuery = "INSERT INTO student( fatherid, personid, shift, board, enrollmentdate, leavingdate, standardid, "
 				+ "bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
@@ -41,18 +46,42 @@ public class StudentDao {
 			pStmt.setString(9, student.getReligion());
 			/*pStmt.setString(10, student.getNationality());*/
 			pStmt.setString(10, student.getCategory());
-			pStmt.setInt(11, student.getRollNo());
+			pStmt.setInt(11, getNextRollNo(student.getStandardId()));
 			pStmt.setString(12, student.getBatch());
 			pStmt.setInt(13, student.getFamilyIncome());
 			pStmt.setInt(14, student.getMotherId());
 			pStmt.setInt(15, student.getPurchaseBook());
 			pStmt.setInt(16, student.getOutstandingFees());
 			pStmt.executeUpdate();
+			
+			
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 
+	
+	public int getNextRollNo(int standardId) {
+		
+		String rollnoQuery = "SELECT max(rollno) FROM student where standardid = ?";
+		try {
+			PreparedStatement pStmt1 = dbConnection.prepareStatement(rollnoQuery);
+			pStmt1.setInt(1, standardId);
+			ResultSet rs= pStmt1.executeQuery();
+			if(rs.next()) {
+				return(rs.getInt(1)+1);
+			}
+						
+						
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+	
+	
 	public void deleteStudent(int studentId) {
 		String deleteQuery = "DELETE FROM student WHERE studentid = ?";
 		try {
@@ -179,19 +208,36 @@ public class StudentDao {
 
 		for (int i = 0; i < studentId.length; i++) {
 			Student student = StudentDao.getStudentThroughId(studentId[i]);
+			Person person = PersonDao.getPersonThroughId(student.getPersonId());
+			Standard standard = StandardDao.getStandardThroughId(student.getStandardId());
 			String query;
-			if (student.getStandardId() >= 10) {
+			String insertQuery;
+			if (student.getStandardId() >= 13) {
+				
+				insertQuery = "INSERT INTO history( firstname, middlename, lastname, standardname, joiningdate, leavingdate) "
+						+ "VALUES (?,?,?,?,?,?)";
 				query = "UPDATE student SET standardid = -1  WHERE studentid="
 						+ studentId[i];
 				System.out.println("greater");
 			} else {
+				insertQuery = "INSERT INTO history( firstname, middlename, lastname, standardname, joiningdate, leavingdate) "
+						+ "VALUES (?,?,?,?,?,?)";
 				query = "UPDATE student SET standardid = standardid + 1 WHERE studentid="
 						+ studentId[i];
 				System.out.println("lesser");
 			}
 			try {
+				PreparedStatement pStmt = dbConnection.prepareStatement(insertQuery);
+				pStmt.setString(1,person.getFirstName() );
+				pStmt.setString(2, person.getMiddleName());
+				pStmt.setString(3, person.getMiddleName());
+				pStmt.setString(4, standard.getStandardName());
+				pStmt.setString(5, student.getEnrollmentDate());
+				pStmt.setString(6, student.getLeavingDate());
+				pStmt.executeUpdate();
 				Statement stmt = dbConnection.createStatement();
 				stmt.executeUpdate(query);
+				
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
 			}

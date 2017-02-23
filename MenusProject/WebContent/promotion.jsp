@@ -145,8 +145,10 @@ angular.module("PromotionApp", []).controller("PromotionController",
 				$scope.disablePromotion = true;
 				angular.forEach($scope.mainList, function(list){
 					if(list.checkSelectedStudent){
+						console.log("Inside if function of promote student");
+						console.log(list.personList);
 						$scope.studentId.push(list.studentList.studentId);
-					}	
+						}	
 		        });
 				var url = "StudentController?action=promoteStudent&standardId=" + $scope.selectedStandard.standardId + "&studentId=" + $scope.studentId;
 				var req = $http({
@@ -161,6 +163,8 @@ angular.module("PromotionApp", []).controller("PromotionController",
 					console.log("Promotion Response :");
 					$scope.studentList = response;
 					$scope.mainList = [];
+					console.log("Inside promotion  response");
+					console.log($scope.personList);
 					for(var i=0;i<$scope.studentList.length;i++){	
 						for(var j=0;j<$scope.personList.length;j++){
 							if($scope.personList[j].personId == $scope.studentList[i].personId){
@@ -334,7 +338,7 @@ angular.module("PromotionApp", []).controller("PromotionController",
 											<th style="width: 250px;">Email</th>
 											<th style="width: 150px;">Mobile No</th>
 											<th style="width: 100px;">Gender</th>
-											<th style="width: 100px;">Gr No</th>
+											<th style="width: 100px;">Roll No</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -346,7 +350,7 @@ angular.module("PromotionApp", []).controller("PromotionController",
 											<td><span ng-bind="x.personList.email"></span></td>
 											<td><span ng-bind="x.personList.mobileNo"></span></td>
 											<td><span ng-bind="x.personList.gender"></span></td>
-											<td><span ng-bind="x.studentList.grNo"></span></td>
+											<td><span ng-bind="x.studentList.rollNo"></span></td>
 										</tr>
 									</tbody>
 								</table>
