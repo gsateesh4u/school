@@ -144,8 +144,7 @@ public class AdmissionController extends HttpServlet {
         			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         			   Date date = new Date();
         			 String enrolDate=  dateFormat.format(date);
-        			
-        			
+        			         			
         			student.setEnrollmentDate(enrolDate);
         			studentDao.addStudent(student);
         			System.out.println("added student object");

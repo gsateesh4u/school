@@ -30,7 +30,7 @@ public class StudentDao {
 		
 		
 		String insertQuery = "INSERT INTO student( fatherid, personid, shift, board, enrollmentdate, leavingdate, standardid, "
-				+ "bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees,academicyear) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pStmt = dbConnection.prepareStatement(insertQuery);
 			/*pStmt.setInt(1, student.getGrNo());
@@ -46,12 +46,13 @@ public class StudentDao {
 			pStmt.setString(9, student.getReligion());
 			/*pStmt.setString(10, student.getNationality());*/
 			pStmt.setString(10, student.getCategory());
-			pStmt.setInt(11, getNextRollNo(student.getStandardId()));
+			pStmt.setInt(11, getNextRollNo(student.getStandardId(),student.getAcademicyear()));
 			pStmt.setString(12, student.getBatch());
 			pStmt.setInt(13, student.getFamilyIncome());
 			pStmt.setInt(14, student.getMotherId());
 			pStmt.setInt(15, student.getPurchaseBook());
 			pStmt.setInt(16, student.getOutstandingFees());
+			pStmt.setString(17, student.getAcademicyear());
 			pStmt.executeUpdate();
 			
 			
@@ -61,12 +62,13 @@ public class StudentDao {
 	}
 
 	
-	public int getNextRollNo(int standardId) {
+	public int getNextRollNo(int standardId,String academicYear) {
 		
-		String rollnoQuery = "SELECT max(rollno) FROM student where standardid = ?";
+		String rollnoQuery = "SELECT max(rollno) FROM student where standardid = ? and academicyear = ?";
 		try {
 			PreparedStatement pStmt1 = dbConnection.prepareStatement(rollnoQuery);
 			pStmt1.setInt(1, standardId);
+			pStmt1.setString(2, academicYear);
 			ResultSet rs= pStmt1.executeQuery();
 			if(rs.next()) {
 				return(rs.getInt(1)+1);
@@ -95,7 +97,7 @@ public class StudentDao {
 
 	public void updateStudent(Student student) {
 		String updateQuery = "UPDATE student SET fatherid = ?, personid = ?, shift = ?, board = ?, enrollmentdate = ?, "
-				+ "leavingdate = ?, standardid = ?, bloodgroup = ?, religion = ?, category = ?, rollno = ? , batch = ?, familyincome = ?, motherid = ?, purchasebook = ?, outstandingfees = ? WHERE studentid = ?";
+				+ "leavingdate = ?, standardid = ?, bloodgroup = ?, religion = ?, category = ?, rollno = ? , batch = ?, familyincome = ?, motherid = ?, purchasebook = ?, outstandingfees = ?, academicyear = ? WHERE studentid = ?";
 		try {
 			pStmt = dbConnection.prepareStatement(updateQuery);
 			/*pStmt.setInt(1, student.getGrNo());
@@ -117,7 +119,9 @@ public class StudentDao {
 			pStmt.setInt(14, student.getMotherId());
 			pStmt.setInt(15, student.getPurchaseBook());
 			pStmt.setInt(16, student.getOutstandingFees());
-			pStmt.setInt(17, student.getStudentId());
+			pStmt.setString(17,student.getAcademicyear());
+			pStmt.setInt(18, student.getStudentId());
+			
 			pStmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -155,6 +159,7 @@ public class StudentDao {
 				student.setMotherId(rs.getInt("motherid"));
 				student.setPurchaseBook(rs.getInt("purchasebook"));
 				student.setOutstandingFees(rs.getInt("outstandingfees"));
+				student.setAcademicyear(rs.getString("academicyear"));
 				students.add(student);
 			}
 		} catch (SQLException e) {
@@ -195,6 +200,7 @@ public class StudentDao {
 					student.setMotherId(rs.getInt("motherid"));
 					student.setPurchaseBook(rs.getInt("purchasebook"));
 					student.setOutstandingFees(rs.getInt("outstandingfees"));
+					student.setAcademicyear(rs.getString("academicyear"));
 					students.add(student);
 				}
 			} catch (SQLException e) {
@@ -342,6 +348,7 @@ public class StudentDao {
 				student.setMotherId(rs.getInt("motherid"));
 				student.setPurchaseBook(rs.getInt("purchasebook"));
 				student.setOutstandingFees(rs.getInt("outstandingfees"));
+				student.setAcademicyear(rs.getString("academicyear"));
 				students.add(student);
 			}
 		} catch (SQLException e) {
@@ -384,6 +391,7 @@ public class StudentDao {
 				student.setMotherId(rs.getInt("motherid"));
 				student.setPurchaseBook(rs.getInt("purchasebook"));
 				student.setOutstandingFees(rs.getInt("outstandingfees"));
+				student.setAcademicyear(rs.getString("academicyear"));
 			}
 		} catch (SQLException e) {
 			System.out.println("exception");

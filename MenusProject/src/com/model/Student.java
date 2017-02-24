@@ -22,6 +22,8 @@ public class Student {
     int studentId = -1;
 	int purchaseBook = 0;
 	int outstandingFees = 0;
+	String academicYear = null;
+	
 	public int getOutstandingFees() {
 		return outstandingFees;
 	}
@@ -142,6 +144,18 @@ public class Student {
 	}
 	public void setFamilyIncome(int familyIncome) {
 		this.familyIncome = familyIncome;
+	}
+	/**
+	 * @return the academicyear
+	 */
+	public String getAcademicyear() {
+		return academicYear;
+	}
+	/**
+	 * @param academicyear the academicyear to set
+	 */
+	public void setAcademicyear(String academicYear) {
+		this.academicYear = academicYear;
 	}
 
 }
