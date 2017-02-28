@@ -305,7 +305,7 @@ angular.module("PromotionApp", []).controller("PromotionController",
 
 											</select>
 									  </div>
-									   <div class="span4">
+									   <div class="span4" style="float:right;">
 									       <table>
 													<tr style=" height: 25px;"></tr>
 													<tr><td><button type="button" class="btn btn-primary"  ng-click="displayStudentData()" >Submit</button></td>
