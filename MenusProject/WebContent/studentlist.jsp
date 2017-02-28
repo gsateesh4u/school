@@ -305,15 +305,15 @@ angular.module("PromotionApp", []).controller("PromotionController",
 
 											</select>
 									  </div>
+									   <div class="span4">
+									       <table>
+													<tr style=" height: 25px;"></tr>
+													<tr><td><button type="button" class="btn btn-primary"  ng-click="displayStudentData()" >Submit</button></td>
+									     			<td><button type="button" class="btn btn-primary" ng-click="clearData()" >Reset</button></td></tr>
+									     	</table>		
+									    </div>
 									</div>	
-										<div class="span12">
-									    	 <div class="span4">
-													<button type="button" class="btn btn-primary" ng-click="displayStudentData()" >Submit</button>
-									     	</div>	
-									     	<div class="span4">
-													<button type="button" class="btn btn-primary" ng-click="clearData()" >Reset</button>
-									    	 </div>
-										</div>																										
+																																				
 								</div>
 								
 								<div class="pull-right">
