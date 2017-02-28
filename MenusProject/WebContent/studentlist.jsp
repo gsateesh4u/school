@@ -10,6 +10,7 @@ angular.module("PromotionApp", []).controller("PromotionController",
 			$scope.standardList = [];
 			$scope.personList = [];
 			$scope.selectedStandard = {};
+			$scope.selectedAcademicYear = {};
 			$scope.disablePromotion = true;
 			$scope.init = function() {
 				var url = "StandardController?action=list";
@@ -77,7 +78,8 @@ angular.module("PromotionApp", []).controller("PromotionController",
 				$scope.studentList = [];
 				$scope.personList = [];
 				console.log($scope.selectedStandard);
-				var url = "StudentController?action=selectedStudent&standardId=" + $scope.selectedStandard.standardId;
+				console.log($scope.selectedAcademicYear);
+				var url = "StudentController?action=selectedStudent&standardId=" + $scope.selectedStandard.standardId+ "&academicYear=" + $scope.selectedAcademicYear;
 				var req = $http({
 					headers : {
 						"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
@@ -156,6 +158,13 @@ angular.module("PromotionApp", []).controller("PromotionController",
 					}
 				});
 			}
+			
+			$scope.clearData = function() {
+				
+				$scope.selectedStandard = false;
+				$scope.selectedAcademicYear = false;
+				
+			};
 			
 			$scope.checkAll = function () {
 		        if ($scope.selectedAll) {
@@ -276,12 +285,37 @@ angular.module("PromotionApp", []).controller("PromotionController",
 						<div class="block-content collapse in">
 							<div class="span12">
 								<div class="pull-left">
-									<div class="form-group">
-										<label for="isbnno">Standard</label> <select class="form-control"
+								   
+								  <div class="span12">
+								      
+									  <div class="form-group span4">
+										<label for="isbnno">Standard</label> 
+											<select style="width:120px;" class="form-control"
 											ng-options="standard.standardName for standard in standardList"
-											ng-model="selectedStandard" ng-click="displayStudentData()"></select>
-									</div>
+											ng-model="selectedStandard" ></select>
+									  </div>
+									
+									  <div class="form-group span4">
+											<label for="textfield">Academic Year </label>
+											<select style="width:120px;"class="form-control" ng-model="selectedAcademicYear"
+												ng-options="academicYear for academicYear in ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026',
+																							  '2027','2028','2029','2030','2031','2032','2033','2034','2035','2036',
+																								'2037','2038','2039','2040','2041','2042','2043','2044','2045','2046']"
+												ng-init="selectedAcademicYear='2017'">
+
+											</select>
+									  </div>
+									</div>	
+										<div class="span12">
+									    	 <div class="span4">
+													<button type="button" class="btn btn-primary" ng-click="displayStudentData()" >Submit</button>
+									     	</div>	
+									     	<div class="span4">
+													<button type="button" class="btn btn-primary" ng-click="clearData()" >Reset</button>
+									    	 </div>
+										</div>																										
 								</div>
+								
 								<div class="pull-right">
 									<div class="form-group">
 								

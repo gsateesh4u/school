@@ -169,18 +169,28 @@ public class StudentController extends HttpServlet {
 			else if(action.equals("selectedStudent")){
 				try{
 					int standardId = 0;
+					int academicYear = 0;
+					if(((request.getParameter("standardId"))==null)||(request.getParameter("academicYear"))==null)
+					{
+						System.out.println("Please enter both standard and academicyear to proceed");
+					}
+					else
+					{
 					if(request.getParameter("standardId")!=null){
 						standardId = Integer.parseInt(request.getParameter("standardId"));
 					}
+					if(request.getParameter("academicYear")!=null){
+						academicYear = Integer.parseInt(request.getParameter("academicYear"));
+					}
 					System.out.println("standard Id " + standardId);
-					studentList = studentDao.getStudentsFromStandardId(standardId);
+					studentList = studentDao.getStudentsFromStandardIdAndAcademicYear(standardId,academicYear);
 					
 					String jsonArray = gson.toJson(studentList);
 
 					// Return Json in the format required by jTable plugin
 					
 					response.getWriter().print(jsonArray);
-					
+					}
 				}catch(Exception e){
 					String error = "Message :"
 							+ e.getMessage();

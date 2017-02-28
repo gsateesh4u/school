@@ -214,32 +214,46 @@ public class StudentDao {
 
 		for (int i = 0; i < studentId.length; i++) {
 			Student student = StudentDao.getStudentThroughId(studentId[i]);
-			Person person = PersonDao.getPersonThroughId(student.getPersonId());
-			Standard standard = StandardDao.getStandardThroughId(student.getStandardId());
+			/*Person person = PersonDao.getPersonThroughId(student.getPersonId());
+			Standard standard = StandardDao.getStandardThroughId(student.getStandardId());*/
 			String query;
 			String insertQuery;
 			if (student.getStandardId() >= 13) {
 				
-				insertQuery = "INSERT INTO history( firstname, middlename, lastname, standardname, joiningdate, leavingdate) "
-						+ "VALUES (?,?,?,?,?,?)";
+				insertQuery = "INSERT INTO studenthistory( fatherid, personid, shift, board, enrollmentdate, leavingdate,"
+						+"standardid, bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees,academicyear) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				query = "UPDATE student SET standardid = -1  WHERE studentid="
 						+ studentId[i];
 				System.out.println("greater");
 			} else {
-				insertQuery = "INSERT INTO history( firstname, middlename, lastname, standardname, joiningdate, leavingdate) "
-						+ "VALUES (?,?,?,?,?,?)";
-				query = "UPDATE student SET standardid = standardid + 1 WHERE studentid="
+				insertQuery = "INSERT INTO studenthistory( fatherid, personid, shift, board, enrollmentdate, leavingdate,"
+						+"standardid, bloodgroup, religion, category, rollno , batch, familyincome, motherid,purchasebook,outstandingfees,academicyear) "
+							+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				query = "UPDATE student SET standardid = standardid + 1 ,academicyear = academicyear + 1 WHERE studentid="
 						+ studentId[i];
 				System.out.println("lesser");
 			}
 			try {
 				PreparedStatement pStmt = dbConnection.prepareStatement(insertQuery);
-				pStmt.setString(1,person.getFirstName() );
-				pStmt.setString(2, person.getMiddleName());
-				pStmt.setString(3, person.getMiddleName());
-				pStmt.setString(4, standard.getStandardName());
+				pStmt.setInt(1,student.getFatherId() );
+				pStmt.setInt(2, student.getPersonId());
+				pStmt.setString(3, student.getShift());
+				pStmt.setString(4, student.getBoard());
 				pStmt.setString(5, student.getEnrollmentDate());
 				pStmt.setString(6, student.getLeavingDate());
+				pStmt.setInt(7, student.getStandardId());
+				pStmt.setString(8, student.getBloodGroup());
+				pStmt.setString(9, student.getReligion());
+				pStmt.setString(10, student.getCategory());
+				pStmt.setInt(11, student.getRollNo());
+				pStmt.setString(12, student.getBatch());
+				pStmt.setInt(13, student.getFamilyIncome());
+				pStmt.setInt(14, student.getMotherId());
+				pStmt.setInt(15, student.getPurchaseBook());
+				pStmt.setInt(16, student.getOutstandingFees());
+				pStmt.setString(17,student.getAcademicyear());
+				
 				pStmt.executeUpdate();
 				Statement stmt = dbConnection.createStatement();
 				stmt.executeUpdate(query);
@@ -358,6 +372,46 @@ public class StudentDao {
 		return students;
 	}
 
+	public List<Student> getStudentsFromStandardIdAndAcademicYear(int standardId,int academicYear) {
+		List<Student> students = new ArrayList<Student>();
+
+		String query = "SELECT * FROM student WHERE leavingdate is  null AND  standardid=" + standardId + "   AND  academicYear=" + academicYear;
+		System.out.println(query);
+		try {
+			Statement stmt = dbConnection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				Student student = new Student();
+				System.out.println("Student Standard ");
+				student.setStudentId(rs.getInt("studentid"));
+				/*student.setGrNo(rs.getInt("grno"));
+				student.setDiseNo(rs.getInt("diseno"));*/
+				student.setFatherId(rs.getInt("fatherid"));
+				student.setPersonId(rs.getInt("personid"));
+				student.setShift(rs.getString("shift"));
+				student.setBoard(rs.getString("board"));
+				student.setEnrollmentDate(rs.getString("enrollmentdate"));
+				student.setLeavingDate(rs.getString("leavingdate"));
+				student.setStandardId(rs.getInt("standardid"));
+				student.setBloodGroup(rs.getString("bloodgroup"));
+				student.setReligion(rs.getString("religion"));
+				/*student.setNationality(rs.getString("nationality"));*/
+				student.setCategory(rs.getString("category"));
+				student.setRollNo(rs.getInt("rollno"));
+				student.setBatch(rs.getString("batch"));
+				student.setFamilyIncome(rs.getInt("familyincome"));
+				student.setMotherId(rs.getInt("motherid"));
+				student.setPurchaseBook(rs.getInt("purchasebook"));
+				student.setOutstandingFees(rs.getInt("outstandingfees"));
+				student.setAcademicyear(rs.getString("academicyear"));
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return students;
+	}
 	public static Student getStudentThroughId(int studentId) {
 		Student student = new Student();
 		String query = "SELECT * FROM student WHERE studentid=" + studentId;
