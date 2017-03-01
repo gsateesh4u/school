@@ -137,6 +137,8 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 		$scope.mainList = [];
 		$scope.studentList = [];
 		$scope.personList = [];
+		console.log("inside display student function in fees.jsp file");
+		console.log($scope.selectedStandard.standardId);
 
 		var url = "BookSetController?action=selectedBookSet&standardId="
 				+ $scope.selectedStandard.standardId;
@@ -173,9 +175,8 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 						$scope.displayBookName = temp
 								.slice(0, temp.length - 1);
 					});
-				});
-		var url = "StudentController?action=selectedStudent&standardId="
-				+ $scope.selectedStandard.standardId;
+				});  
+		/* 
 		var req = $http({
 			headers : {
 				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
@@ -183,9 +184,9 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 			datatype : 'text',
 			method : 'post',
 			url : url
-		});
+		}); */
 
-		var url = "StudentController?action=selectedStudent&standardId="
+		/*  var url = "StudentController?action=selectedStudent&standardId="
 				+ $scope.selectedStandard.standardId;
 		var req = $http({
 			headers : {
@@ -195,18 +196,63 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 			method : 'post',
 			url : url
 		});
-		req
-				.success(function(response) {
+		req.success(function(response){
+			console.log("Student List :");
+			console.log(response);
+			$scope.studentList = response;
+			
+			$scope.personId = [];
+			for(var i=0;i<$scope.studentList.length;i++){
+				$scope.personId.push($scope.studentList[i].personId);	
+			}
+			console.log("$scope.personId :" + $scope.personId);
+			var url = "PersonController?action=selectedPerson&personId=" + $scope.personId;
+			var req = $http({
+				headers : {
+					"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+				},
+				datatype : 'text',
+				method : 'post',
+				url : url
+			});
+			req.success(function(response){
+				console.log("Person List :");
+				console.log(response);
+				console.log(JSON.stringify(response));
+				$scope.mainList = [];
+				$scope.personList = response;
+				for(var i=0;i<$scope.personList.length;i++){	
+						$scope.mainList.push({personList:$scope.personList[i],studentList:$scope.studentList[i],checkSelectedStudent:false});
+				}
+				console.log("MainList :")
+				console.log($scope.mainList);
+				console.log("selectedStandard :")
+				console.log($scope.selectedStandard); 
+				
+			});
+		}); */
+		var url = "StudentController?action=selectedStudent&standardId="
+			+ $scope.selectedStandard.standardId;
+		var req = $http({
+			headers : {
+				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+			},
+			datatype : 'text',
+			method : 'post',
+			url : url
+		});
+		req	.success(function(response) {
 					$scope.studentList = response;
 
 					$scope.personId = [];
 					for (var i = 0; i < $scope.studentList.length; i++) {
-						$scope.personId
-								.push($scope.studentList[i].personId);
+						$scope.personId	.push($scope.studentList[i].personId);
 					}
+					
 					
 					var url = "PersonController?action=selectedPerson&personId="
 							+ $scope.personId;
+					
 					var req = $http({
 						headers : {
 							"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
@@ -215,8 +261,7 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 						method : 'post',
 						url : url
 					});
-					req
-							.success(function(response) {
+					req.success(function(response) {
 								
 								$scope.mainList = [];
 								$scope.personList = response;
@@ -229,7 +274,7 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 											});
 								}
 							});
-				});
+				});  
 	}
 
 	$scope.openStudent = function(list) {
@@ -1169,15 +1214,15 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 									<table class="table table-bordered table-hover">
 										<thead>
 											<tr class="info">
-												<th width="20%">Gr No</th>
+												<th width="20%">Roll No</th>
 												<th width="60%">Name</th>
 												<th width="80%">Outstanding</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-repeat="x in mainList | filter:searchStudent" ng-click="openStudent(x)" style="cursor:pointer;">
-												<td><span ng-bind="x.studentList.grNo"></span></td>
-												<td>{{x.personList.firstName + " " + x.personList.lastName}}</td>
+												<td><span ng-bind="x.studentList.rollNo"></span></td>
+												<td>{{x.personList.firstName + " " + x.personList.middleName +  " " + x.personList.lastName }}</td>
 												<td>&#8377; <span ng-bind="x.studentList.outstandingFees"></span></td>
 											</tr>
 										</tbody>

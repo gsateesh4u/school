@@ -79,7 +79,7 @@ angular.module("PromotionApp", []).controller("PromotionController",
 				$scope.personList = [];
 				console.log($scope.selectedStandard);
 				console.log($scope.selectedAcademicYear);
-				var url = "StudentController?action=selectedStudent&standardId=" + $scope.selectedStandard.standardId+ "&academicYear=" + $scope.selectedAcademicYear;
+				var url = "StudentController?action=selectedStudentAndAcademicYear&standardId=" + $scope.selectedStandard.standardId+ "&academicYear=" + $scope.selectedAcademicYear;
 				var req = $http({
 					headers : {
 						"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
@@ -163,6 +163,55 @@ angular.module("PromotionApp", []).controller("PromotionController",
 				
 				$scope.selectedStandard = false;
 				$scope.selectedAcademicYear = false;
+				$scope.mainList = [];
+				$scope.studentList = [];
+				$scope.personList = [];
+				console.log($scope.selectedStandard);
+				console.log($scope.selectedAcademicYear);
+				var url = "StudentController?action=selectedStudent&standardId=" + $scope.selectedStandard.standardId+ "&academicYear=" + $scope.selectedAcademicYear;
+				var req = $http({
+					headers : {
+						"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+					},
+					datatype : 'text',
+					method : 'post',
+					url : url
+				});
+				req.success(function(response){
+					console.log("Student List :");
+					console.log(response);
+					$scope.studentList = response;
+					
+					$scope.personId = [];
+					for(var i=0;i<$scope.studentList.length;i++){
+						$scope.personId.push($scope.studentList[i].personId);	
+					}
+					console.log("$scope.personId :" + $scope.personId);
+					var url = "PersonController?action=selectedPerson&personId=" + $scope.personId;
+					var req = $http({
+						headers : {
+							"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+						},
+						datatype : 'text',
+						method : 'post',
+						url : url
+					});
+					req.success(function(response){
+						console.log("Person List :");
+						console.log(response);
+						console.log(JSON.stringify(response));
+						$scope.mainList = [];
+						$scope.personList = response;
+						for(var i=0;i<$scope.personList.length;i++){	
+								$scope.mainList.push({personList:$scope.personList[i],studentList:$scope.studentList[i],checkSelectedStudent:false});
+						}
+						console.log("MainList :")
+						console.log($scope.mainList);
+						console.log("selectedStandard :")
+						console.log($scope.selectedStandard); 
+						
+					});
+				});
 				
 			};
 			
@@ -284,20 +333,16 @@ angular.module("PromotionApp", []).controller("PromotionController",
 
 						<div class="block-content collapse in">
 							<div class="span12">
-								<div class="pull-left">
-								   
-								  <div class="span12">
-								      
-									  <div class="form-group span4">
+									  <div class="form-group span3">
 										<label for="isbnno">Standard</label> 
-											<select style="width:120px;" class="form-control"
+											<select class="form-control"
 											ng-options="standard.standardName for standard in standardList"
 											ng-model="selectedStandard" ></select>
 									  </div>
 									
-									  <div class="form-group span4">
+									  <div class="form-group span3">
 											<label for="textfield">Academic Year </label>
-											<select style="width:120px;"class="form-control" ng-model="selectedAcademicYear"
+											<select class="form-control" ng-model="selectedAcademicYear"
 												ng-options="academicYear for academicYear in ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026',
 																							  '2027','2028','2029','2030','2031','2032','2033','2034','2035','2036',
 																								'2037','2038','2039','2040','2041','2042','2043','2044','2045','2046']"
@@ -305,42 +350,37 @@ angular.module("PromotionApp", []).controller("PromotionController",
 
 											</select>
 									  </div>
-									   <div class="span4" style="float:right;">
+									   <div class="span2">
 									       <table>
 													<tr style=" height: 25px;"></tr>
-													<tr><td><button type="button" class="btn btn-primary"  ng-click="displayStudentData()" >Submit</button></td>
-									     			<td><button type="button" class="btn btn-primary" ng-click="clearData()" >Reset</button></td></tr>
+													<tr><td><button type="button" class="btn btn-primary" ng-disabled="!selectedStandard || !selectedAcademicYear"  ng-click="displayStudentData()" >Submit</button></td>
+									     			<td><button type="button" class="btn btn-danger" ng-click="clearData()" >Reset</button></td></tr>
 									     	</table>		
 									    </div>
-									</div>	
-																																				
-								</div>
+								<div class="span4">
+									<div class="form-group" style="margin-top:8%">
 								
-								<div class="pull-right">
-									<div class="form-group">
-								
-											 <input type="text" class="span6 m-wrap h30" placeholder="Search for..." ng-model="searchStudent" style="margin-top: 35px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-top-left-radius: 5px;border-top-right-radius: 5px;width:190px;">
-											<button ng-click="generateIDcard()" type="button" class="btn btn-success"  style="margin-top: 25px;">Generate ID Card</button>
+											 <input type="text" class="span6 m-wrap h30" placeholder="Search for..." ng-model="searchStudent" style="width:90%;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+											<!-- <button ng-click="generateIDcard()" type="button" class="btn btn-success"  style="margin-top: -3%;">Generate ID Card</button> -->
 									</div>
 								</div>
-
 								<div class="clearfix"></div>
 							</div>
-							<div style="overflow: scroll;padding-left: 1px;">
+							<div style="overflow-y: scroll;padding-left: 1px;">
 
 								<table class="table table-bordered table-hover" style="overflow-x:scroll;">
 									<thead>
 										<tr class="info">
-											<th style="width: 150px;">First Name</th>
-											<th style="width: 150px;">Last Name</th>
+											<th>First Name</th>
+											<th>Last Name</th>
 											<!-- <th style="width: 150px;">Date Of Birth</th> -->
-											<th style="width: 250px;">Email</th>
-											<th style="width: 150px;">Mobile No</th>
-											<th style="width: 100px;">Gender</th>
-											<th style="width: 100px;">Roll No</th>
-											<th style="width: 100px;">Update </th>
-											<th style="width: 100px;">Profile</th>
-											<th style="width: 100px;">Generate ID Card</th>
+											<th>Email</th>
+											<th>Mobile No</th>
+											<th>Gender</th>
+											<th>Roll No</th>
+											<th>Update </th>
+											<th>Profile</th>
+											<th>ID Card</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -354,8 +394,8 @@ angular.module("PromotionApp", []).controller("PromotionController",
 											<td><span ng-bind="x.personList.gender"></span></td>
 											<td><span ng-bind="x.studentList.rollNo"></span></td>
 											<td> <button class="btn btn-primary" ng-click="showUpdate(x)" >Update </button> </td>
-											<td> <button class="btn btn-primary" ng-click="showProfile(x)">View Profile</button> </td>
-											<td> <button class="btn btn-primary" ng-click="generateId(x)">Generate ID</button> </td>
+											<td> <button class="btn btn-primary" ng-click="showProfile(x)">View </button> </td>
+											<td> <button class="btn btn-primary" ng-click="generateId(x)">Generate</button> </td>
 										</tr>
 									</tbody>
 								</table>

@@ -786,9 +786,9 @@ function getbase64() {
 												Name <span style="color:red;">*</span></label>
 										</div>
 
-										<div class="span2">
+										<div class="span2" >
 											<input name="sFname" ng-model="admit.father.firstName"
-												size=id= "sFname" type="text" class="span6 m-wrap h30">
+												size=id= "sFname" type="text" class="span6 m-wrap h30"style="width:100%;margin-left:-17%">
 										</div>
 
 										<div class="span2">
@@ -800,11 +800,11 @@ function getbase64() {
 										<div class="span2">
 
 											<input name="sMname" ng-model="admit.mother.firstName"
-												class="span6 m-wrap h30" size=id= "sMname" type="text">
+												class="span6 m-wrap h30" size=id= "sMname" type="text"style="width:100%;margin-left:-17%">
 
 										</div>
 										
-										<div class="span2">
+										<div class="span2" style="margin-left:2%;">
 											<label for="textfield" class="form-control">Family
 												Income <span style="color:red;">*</span></label>
 										</div>
@@ -812,7 +812,7 @@ function getbase64() {
 										<div class="span2">
 
 											<input ng-model="admit.student.familyIncome"
-												class='span6 m-wrap h30' id="sAddresso" type="text">
+												class='span6 m-wrap h30' id="sAddresso" type="text"style="width:100%;margin-left:-17%">
 										</div>
 
 									</div>
