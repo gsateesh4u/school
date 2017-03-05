@@ -61,6 +61,14 @@
     <url-pattern>/FeesTypeController</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>FeeStudentController</servlet-name>
+    <servlet-class>com.servlet.FeeStudentController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FeeStudentController</servlet-name>
+    <url-pattern>/FeeStudentController</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>StudentController</servlet-name>
     <servlet-class>com.servlet.StudentController</servlet-class>
   </servlet>

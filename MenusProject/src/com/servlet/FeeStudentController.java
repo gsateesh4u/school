@@ -150,6 +150,28 @@ public class FeeStudentController extends HttpServlet {
 					response.getWriter().print(error);
 				}
 			}
+			else if (action.equals("selectedStudentFees")) {
+				try{
+					System.out.println("Inside feestudent controller");
+					int standardId = 0;
+					if(request.getParameter("standardId")!=null){
+						standardId = Integer.parseInt(request.getParameter("standardId"));
+					}
+					
+					feeStudentList = feeStudentDao.getAllFeeStudentsFromStadardId(standardId);
+					
+					String jsonArray = gson.toJson(feeStudentList);
+
+					// Return Json in the format required by jTable plugin
+					
+					response.getWriter().print(jsonArray);
+					
+				}catch(Exception e){
+					String error = "Message :"
+							+ e.getMessage();
+					response.getWriter().print(error);
+				}
+			}
 		}
 	}
 }

@@ -22,14 +22,17 @@ public class FeesTypeDao {
 	}
 
 	public void addFeesType(FeesType feesType) {
-		String insertQuery = "INSERT INTO feestype(typename, duration, "
-				+ "amount, standardid) VALUES (?,?,?,?)";
+		String insertQuery = "INSERT INTO feestype(typename,  "
+				+ "monthlyamount, quarterlyamount, halfyearlyamount, annualamount, standardid) VALUES (?,?,?,?,?,?)";
 		try {
 			pStmt = dbConnection.prepareStatement(insertQuery);
 			pStmt.setString(1, feesType.getTypeName());
-			pStmt.setString(2, feesType.getDuration());
-			pStmt.setInt(3, feesType.getAmount());
-			pStmt.setInt(4, feesType.getStandardId());
+			/*pStmt.setString(2, feesType.getDuration());*/
+			pStmt.setInt(2, feesType.getMonthlyAmount());
+			pStmt.setInt(3, feesType.getQuarterlyAmount());
+			pStmt.setInt(4, feesType.getHalfyearlyAmount());
+			pStmt.setInt(5, feesType.getAnnualAmount());
+			pStmt.setInt(6, feesType.getStandardId());
 			pStmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -48,15 +51,18 @@ public class FeesTypeDao {
 	}
 
 	public void updateFeesType(FeesType feesType) {
-		String updateQuery = "UPDATE feestype SET typename = ?, duration = ?, "
-				+ "amount = ?, standardid = ? WHERE feestypeid = ?";
+		String updateQuery = "UPDATE feestype SET typename = ?, "
+				+ "monthlyamount = ?, quarterlyamount = ?, halfyearlyamount = ?, annualamount = ?, standardid = ? WHERE feestypeid = ?";
 		try {
 			pStmt = dbConnection.prepareStatement(updateQuery);
 			pStmt.setString(1, feesType.getTypeName());
-			pStmt.setString(2, feesType.getDuration());
-			pStmt.setInt(3, feesType.getAmount());
-			pStmt.setInt(4, feesType.getStandardId());
-			pStmt.setInt(5, feesType.getFeesTypeId());
+			/*pStmt.setString(2, feesType.getDuration());*/
+			pStmt.setInt(2, feesType.getMonthlyAmount());
+			pStmt.setInt(3, feesType.getQuarterlyAmount());
+			pStmt.setInt(4, feesType.getHalfyearlyAmount());
+			pStmt.setInt(5, feesType.getAnnualAmount());
+			pStmt.setInt(6, feesType.getStandardId());
+			pStmt.setInt(7, feesType.getFeesTypeId());
 			pStmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -76,10 +82,14 @@ public class FeesTypeDao {
 				
 				feesType.setFeesTypeId(rs.getInt("feestypeid"));
 				feesType.setTypeName(rs.getString("typename"));
-				feesType.setDuration(rs.getString("duration"));
-				feesType.setAmount(rs.getInt("amount"));
+				/*feesType.setDuration(rs.getString("duration"));*/
+				feesType.setMonthlyAmount(rs.getInt("monthlyamount"));
+				feesType.setQuarterlyAmount(rs.getInt("quarterlyamount"));
+				feesType.setHalfyearlyAmount(rs.getInt("halfyearlyamount"));
+				feesType.setAnnualAmount(rs.getInt("annualamount"));
 				feesType.setStandardId(rs.getInt("standardid"));
 				feesTypes.add(feesType);
+				System.out.println("Fees type name is" + rs.getString("typename"));
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -99,8 +109,11 @@ public class FeesTypeDao {
 
 				feesType.setFeesTypeId(rs.getInt("feestypeid"));
 				feesType.setTypeName(rs.getString("typename"));
-				feesType.setDuration(rs.getString("duration"));
-				feesType.setAmount(rs.getInt("amount"));
+				/*feesType.setDuration(rs.getString("duration"));*/
+				feesType.setMonthlyAmount(rs.getInt("monthlyamount"));
+				feesType.setQuarterlyAmount(rs.getInt("quarterlyamount"));
+				feesType.setHalfyearlyAmount(rs.getInt("halfyearlyamount"));
+				feesType.setAnnualAmount(rs.getInt("annualamount"));
 				feesType.setStandardId(rs.getInt("standardid"));
 				students.add(feesType);
 			}

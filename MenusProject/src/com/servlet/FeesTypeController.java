@@ -71,9 +71,21 @@ public class FeesTypeController extends HttpServlet {
 					feesType.setDuration(duration);
 				}
 
-				if (request.getParameter("amount") != null) {
-					int amount = Integer.parseInt(request.getParameter("amount"));
-					feesType.setAmount(amount);
+				if (request.getParameter("monthlyAmount") != null) {
+					int monthlyAmount = Integer.parseInt(request.getParameter("monthlyAmount"));
+					feesType.setMonthlyAmount(monthlyAmount);
+				}
+				if (request.getParameter("quarterlyAmount") != null) {
+					int quarterlyAmount = Integer.parseInt(request.getParameter("quarterlyAmount"));
+					feesType.setQuarterlyAmount(quarterlyAmount);
+				}
+				if (request.getParameter("halfyearlyAmount") != null) {
+					int halfyearlyAmount = Integer.parseInt(request.getParameter("halfyearlyAmount"));
+					feesType.setHalfyearlyAmount(halfyearlyAmount);
+				}
+				if (request.getParameter("annualAmount") != null) {
+					int annualAmount = Integer.parseInt(request.getParameter("annualAmount"));
+					feesType.setAnnualAmount(annualAmount);
 				}
 				
 				if(request.getParameter("standardId") != null){

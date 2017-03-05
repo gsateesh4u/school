@@ -79,7 +79,31 @@ public class FeeStudentDao {
 				feeStudent.setFeesTypeId(rs.getInt("feetypeid"));
 				feeStudent.setStudentId(rs.getInt("studentid"));
 				feeStudent.setPaidFrom(rs.getString("paidfrom"));
-				feeStudent.setPaidTo(rs.getString("patdto"));
+				feeStudent.setPaidTo(rs.getString("paidto"));
+				feeStudent.setStandardId(rs.getInt("standardid"));
+				feeStudent.setAmountPaid(rs.getInt("amountpaid"));
+				feeStudents.add(feeStudent);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return feeStudents;
+	}
+	
+	public List<FeeStudent> getAllFeeStudentsFromStadardId(int standardId) {
+		List<FeeStudent> feeStudents = new ArrayList<FeeStudent>();
+
+		String query = "SELECT * FROM feestudent WHERE standardid = " + standardId;
+		try {
+			Statement stmt = dbConnection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				FeeStudent feeStudent = new FeeStudent();
+				feeStudent.setFeeStudentId(rs.getInt("feestudentid"));
+				feeStudent.setFeesTypeId(rs.getInt("feetypeid"));
+				feeStudent.setStudentId(rs.getInt("studentid"));
+				feeStudent.setPaidFrom(rs.getString("paidfrom"));
+				feeStudent.setPaidTo(rs.getString("paidto"));
 				feeStudent.setStandardId(rs.getInt("standardid"));
 				feeStudent.setAmountPaid(rs.getInt("amountpaid"));
 				feeStudents.add(feeStudent);

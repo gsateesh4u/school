@@ -137,7 +137,6 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 		$scope.mainList = [];
 		$scope.studentList = [];
 		$scope.personList = [];
-		console.log("inside display student function in fees.jsp file");
 		console.log($scope.selectedStandard.standardId);
 
 		var url = "BookSetController?action=selectedBookSet&standardId="
@@ -186,51 +185,7 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 			url : url
 		}); */
 
-		/*  var url = "StudentController?action=selectedStudent&standardId="
-				+ $scope.selectedStandard.standardId;
-		var req = $http({
-			headers : {
-				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
-			},
-			datatype : 'text',
-			method : 'post',
-			url : url
-		});
-		req.success(function(response){
-			console.log("Student List :");
-			console.log(response);
-			$scope.studentList = response;
-			
-			$scope.personId = [];
-			for(var i=0;i<$scope.studentList.length;i++){
-				$scope.personId.push($scope.studentList[i].personId);	
-			}
-			console.log("$scope.personId :" + $scope.personId);
-			var url = "PersonController?action=selectedPerson&personId=" + $scope.personId;
-			var req = $http({
-				headers : {
-					"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
-				},
-				datatype : 'text',
-				method : 'post',
-				url : url
-			});
-			req.success(function(response){
-				console.log("Person List :");
-				console.log(response);
-				console.log(JSON.stringify(response));
-				$scope.mainList = [];
-				$scope.personList = response;
-				for(var i=0;i<$scope.personList.length;i++){	
-						$scope.mainList.push({personList:$scope.personList[i],studentList:$scope.studentList[i],checkSelectedStudent:false});
-				}
-				console.log("MainList :")
-				console.log($scope.mainList);
-				console.log("selectedStandard :")
-				console.log($scope.selectedStandard); 
-				
-			});
-		}); */
+		
 		var url = "StudentController?action=selectedStudent&standardId="
 			+ $scope.selectedStandard.standardId;
 		var req = $http({
@@ -338,6 +293,23 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 			$scope.generateTransactionInfo($scope.selectedStatement.startDate,$scope.selectedStatement.endDate);
 		}
 	}
+	
+	/* $scope.displaySelectedFeesTypeData = function(){
+		
+		$http({
+			method : 'POST',
+			url : "FeesTypeController?action=list",
+			datatype : 'text',
+			headers : {
+				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+			}
+		}).success(function(response){
+			console.log(response);
+			$scope.feestypeList = response;
+			$scope.selectedFeestype = $scope.feestypeList[1];
+			
+		});
+	} */
 	
 	$scope.currentTransactionInfo = function(){
 		$scope.currentCharge = true;
@@ -629,8 +601,8 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 		$scope.currentCharge = false;
 		$scope.allCharge = false;
 		
-		var url = "StatementController?action=selectedStudent&studentId=" + $scope.selectedStudent.studentList.studentId;
-		var req = $http({
+		/* var url = "StatementController?action=selectedStudent&studentId=" + $scope.selectedStudent.studentList.studentId;
+		 var req = $http({
 			headers : {
 				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
 			},
@@ -645,6 +617,33 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 				$scope.selectedStatement = $scope.statementList[$scope.statementList.length-2];
 			
 			$scope.currentTransactionInfo();
+		});  */
+		var url1 = "FeesTypeController?action=selectedFeesType&standardId=" + $scope.selectedStudent.studentList.standardId;
+		var req = $http({
+			method : 'POST',
+			url : url1,
+			datatype : 'text',
+			headers : {
+				"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+			}
+		}).success(function(response){
+			console.log(response);
+			$scope.feesTypeList = response;
+			if($scope.feesTypeList && $scope.feesTypeList.length > 0){
+				$scope.selectedFeestype = $scope.feesTypeList[0];
+			}
+				var req = $http({
+				method : 'POST',
+				url : "FeeStudentController?action=selectedStudentFees&standardId=" + $scope.selectedStudent.studentList.standardId,
+				datatype : 'text',
+				headers : {
+					"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"
+				} 
+				
+			}).success(function(response){
+				console.log(response);
+				$scope.studentFeesList = response;
+			});
 		});
 	}
 	
@@ -1248,17 +1247,24 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 								<hr style="width: 100%; color: black; height: 1px; background-color:black;" />
 								
 								<div class="col-sm-12">
-									<div class="pull-left">
-										<div class="form-group form-inline">
+									
+										<!-- <div class="span6">
 					
-											<label for="isbnno">Statment : </label> <select class="form-control"
+											<label for="isbnno">Statement : </label> <select class="form-control"
 												ng-options="statement.statementName for statement in statementList"
 												ng-model="selectedStatement" ng-change="displayStatementData()"></select>
 										</div>
-									</div>
+										 -->
+										<div class="span6">
+					
+											<label for="isbnno">Fees Type : </label> <select class="form-control"
+												ng-options="feestype.typeName for feestype in feesTypeList"
+												ng-model="selectedFeestype" ></select>
+										</div>
+										
 									<div class="clearfix"></div>
 								</div>
-								<div class="col-sm-12">
+								<!-- <div class="col-sm-12">
 									<div class="pull-left">
 										<div class="form-group">
 											<h3><span ng-if="currentCharge == false && allCharge == false">STATEMENT : </span>
@@ -1266,23 +1272,23 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 										</div>
 									</div>
 									
-								</div>
+								</div> -->
 								
 								<hr style="width: 100%; color: black; height: 1px; background-color:black;" />
 								
-								<div class="col-sm-12" ng-if="currentCharge == true || allCharge == true">
+								<div class="col-sm-12">
 									<div class="pull-left">
-										<div class="form-group" ng-if="currentCharge == true">
-											<label for="isbnno">Opening Balance : &#8377; {{ openingAmt }}</label> 
+										<div class="form-group">
+											<label for="isbnno">Total Fees : &#8377; {{ selectedFeestype.annualAmount }}</label> 
 										</div>
 										<div class="form-group">
-											<label for="isbnno">Outstanding Balance : &#8377; {{ outstandingAmt }}</label> 
+											<label for="isbnno">Outstanding Fees : &#8377; {{ outstandingAmt }}</label> 
 										</div>
 									</div>
 									<div class="clearfix"></div>
 								</div>
 								
-								<div class="col-sm-12" ng-if="currentCharge == false && allCharge == false">
+								<!-- <div class="col-sm-12" ng-if="currentCharge == false && allCharge == false">
 									<div class="pull-left">
 										<div class="form-group">
 											<label for="isbnno">Date : {{ selectedStatement.startDate + " - " + selectedStatement.endDate }}</label> 
@@ -1293,11 +1299,21 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 										<div class="form-group">
 											<label for="isbnno">Closing Balance : &#8377; {{ closingGenerateBalance }}</label> 
 										</div>
+										<div class="form-group">
+											<label for="isbnno">Date : {{ selectedStatement.startDate + " - " + selectedStatement.endDate }}</label> 
+										</div>
+										<div class="form-group">
+											<label for="isbnno">Total Fees : &#8377; {{ totalFee }}</label> 
+										</div>
+										<div class="form-group">
+											<label for="isbnno">Outstanding Balance  : &#8377; {{ closingGenerateBalance }}</label> 
+											
+										</div>
 									</div>
 									<div class="clearfix"></div>
-								</div>
+								</div> -->
 								
-								<div class="col-sm-12" ng-if="currentCharge == false && allCharge == false">
+								<!-- <div class="col-sm-12">
 									<div class="pull-left">
 										<div class="form-group" >
 											<button type="button" class="btn btn-primary" ng-click="print('printData');">Print</button>
@@ -1305,15 +1321,16 @@ angular.module("FeesApp", []).controller("FeesController",function($scope, $http
 										</div>
 									</div>
 									<div class="clearfix"></div>
-								</div>
+								</div> -->
 								
-								<div class="col-sm-12" ng-if="currentCharge == true">
+								<div class="col-sm-12">
 									<div class="pull-left">
 										<div class="form-group" >
-											<button type="button" class="btn btn-default" ng-click="openChargeModal()">Add Charge</button>
+											<!-- <button type="button" class="btn btn-default" ng-click="openChargeModal()">Add Charge</button> -->
 											<button type="button" class="btn btn-default" ng-click="openPaymentModal()">Add Payment</button>
-											<button type="button" class="btn btn-default" ng-click="openInvoiceModal()">Add Invoice</button>
+											<!-- <button type="button" class="btn btn-default" ng-click="openInvoiceModal()">Add Invoice</button> -->
 											<button type="button" class="btn btn-default" ng-click="showStatement()">Generate Statement</button>
+											<button type="button" class="btn btn-primary" ng-click="print('printData');">Print</button>
 										</div>
 									</div>
 									<div class="clearfix"></div>
